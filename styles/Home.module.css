@@ -1,0 +1,10 @@
+.main {
+ background-color: blue;
+}
+@media (max-width: 750px) {
+        .main { 
+            align-items: center;
+            text-align: center;
+        }
+}
+

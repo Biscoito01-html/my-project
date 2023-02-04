@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Fornecedor {
+  id        Int      @id @unique @default(autoincrement())
+  name      String
+  cnpj      Int      @unique
+  endereco  String
+  telefone  Int
+  celular   Int
+  datacreat DateTime @default(now())
+
+  produtosfornecidos Produto[]
+
+  @@map("fornecedores")
+}
+
+model Produto {
+  id           Int      @id @unique @default(autoincrement())
+  descricao    String
+  quantidade   Int
+  valorunit    Float
+  codigobarras Int      @unique
+  createdata   DateTime @default(now())
+
+  fornecedorProdutoId Int
+  produto             Fornecedor @relation(fields: [fornecedorProdutoId], references: [id])
+
+  @@map("produtos")
+}
+
+model User {
+  id          Int     @id @unique @default(autoincrement())
+  nome        String
+  endereco    String
+  telefone    Int
+  cpf         Int     @unique
+  celular     Int
+  active      Boolean @default(true)
+  nivelamento Nivel   @default(user)
+
+  @@map("usuarios")
+}
+
+enum Nivel {
+  user
+  adm
+}
